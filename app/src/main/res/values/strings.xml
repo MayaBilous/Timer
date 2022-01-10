@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Timer</string>
+
+    <string name="choose_time">Choose time</string>
+    <string name="action_close">Close</string>
+    <string name="year">Year</string>
+    <string name="year_Numbers">year</string>-
+    <string name="month">month</string>
+    <string name="month_Numbers">month</string>
+    <string name="day">day</string>
+    <string name="day_Numbers">day</string>
+    <string name="hour">hour</string>
+    <string name="hour_Numbers">hour</string>
+    <string name="minute_Numbers">minute</string>
+    <string name="minute">minute</string>
+    <string name="start">Start</string>
+    <string name="end">end</string>
+    <string name="timerYear">Year</string>
+    <string name="timerMonth">Month</string>
+    <string name="timerDay">Day</string>
+    <string name="timerHour">Hour</string>
+    <string name="timerMinute">Minute</string>
+    <string name="back">Back</string>
+</resources>
