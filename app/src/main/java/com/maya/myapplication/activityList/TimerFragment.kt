@@ -6,38 +6,44 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.room.Room
 import com.maya.myapplication.R
-import com.maya.myapplication.activityTimer.TimerFragment
-import com.maya.myapplication.activityTimer.TimerFragment.Companion.TIME_FOR_TIMER
-import com.maya.myapplication.databinding.FragmentMainBinding
-import com.maya.myapplication.domain.TimeForTimer
+import com.maya.myapplication.databinding.FragmentTimerBinding
+import com.maya.myapplication.entiti.AppDatabase
+import com.maya.myapplication.entiti.TimeItem
 import com.maya.myapplication.showSingleChoiceAlertDialog
 
-class MainFragment : Fragment(R.layout.fragment_main) {
+class TimerFragment : Fragment(R.layout.fragment_timer) {
 
-    private val viewModel: MainViewModel by viewModels()
-    private lateinit var binding: FragmentMainBinding
+    private var appDatabase: AppDatabase? = null
+    private val viewModel: TimerViewModel by viewModels()
+    private lateinit var binding: FragmentTimerBinding
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentMainBinding.bind(view)
+        appDatabase = Room.databaseBuilder(
+            requireContext(),
+            AppDatabase::class.java, "database-name"
+        ).build()
+
+        binding = FragmentTimerBinding.bind(view)
 
         viewModel.yearNumbers.observe(this) { number ->
-            binding.yearNumbers.text = number
+            binding.yearNumbers.text = number.toString()
         }
         viewModel.monthNumbers.observe(this) { number ->
-            binding.monthNumbers.text = number
+            binding.monthNumbers.text = number.toString()
         }
         viewModel.dayNumbers.observe(this) { number ->
-            binding.dayNumbers.text = number
+            binding.dayNumbers.text = number.toString()
         }
         viewModel.hourNumbers.observe(this) { number ->
-            binding.hourNumbers.text = number
+            binding.hourNumbers.text = number.toString()
         }
         viewModel.minuteNumbers.observe(this) { number ->
-            binding.minuteNumbers.text = number
+            binding.minuteNumbers.text = number.toString()
         }
 
 
@@ -89,30 +95,14 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 }
             )
         }
-        binding.end.setOnClickListener { requireActivity().finish() }
-
-        binding.start.setOnClickListener {
-
-            if (viewModel.startButton()) {
-
-                val someObject = TimeForTimer(
-                    binding.yearNumbers.text as String,
-                    binding.monthNumbers.text as String,
-                    binding.dayNumbers.text as String,
-                    binding.hourNumbers.text as String,
-                    binding.minuteNumbers.text as String
-                )
-                val bundle = Bundle()
-                bundle.putParcelable(TIME_FOR_TIMER, someObject)
-                val timerFragment = TimerFragment()
-                timerFragment.arguments = bundle
-
-                parentFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.main_layout, timerFragment, null)
-                    .addToBackStack(null)
-                    .commit()
+        binding.add.setOnClickListener {
+            appDatabase?.let {
+                viewModel.addItem(it, binding.nameTime.text.toString())
             }
         }
+
+        binding.back.setOnClickListener { parentFragmentManager.popBackStack() }
+
     }
+
 }

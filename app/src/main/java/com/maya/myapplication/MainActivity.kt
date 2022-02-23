@@ -1,11 +1,8 @@
 package com.maya.myapplication
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.maya.myapplication.activityList.MainFragment
-import java.text.SimpleDateFormat
-import java.util.*
+import com.maya.myapplication.activityTimer.MainFragment
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
@@ -17,12 +14,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 .add(R.id.main_layout, MainFragment(), null)
                 .commit()
         }
-
-
-
-        val someTime = System.currentTimeMillis()
-        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-        Log.d("MyLogs", "time = ${simpleDateFormat.format(someTime)}")
     }
 }
 
